@@ -3,89 +3,111 @@
 # Mariana Carrillo Holguin - A01253358
 # Zuleyca Guadalupe Balles Soto - A01741687
 # 20/03/2025
-# Este programa aplica una convolucion con un kernel de Sobel.
+# Este programa aplica a una imagen una convolución con un kernel de aumento de ruido, 
+# subsecuentemente a la imagen resultante con ruido se le aplica un filtro Sobel.
 
+# Importar librerías necesarias:
+# numpy para operaciones numéricas, cv2 para procesamiento de imágenes y matplotlib para graficar.
 import numpy as np
 import cv2
 import matplotlib.pyplot as plt
 
-def convolution(image_path, filtro):
-
-    # Obtener dimensiones
+# Definición de la función de convolución que aplica un filtro (kernel) a una imagen.
+def convolution(image, filtro):
+    # Obtener las dimensiones (altura y anchura) de la imagen de entrada.
     img_height, img_width = image.shape
+    # Obtener las dimensiones (altura y anchura) del filtro.
     filtro_height, filtro_width = filtro.shape
 
-    # Dimensiones de la imagen resultante (más pequeña)
+    # Crear una matriz de salida (imagen resultante) con dimensiones reducidas:
+    # La imagen resultante tendrá dimensiones: (img_height - filtro_height + 1) x (img_width - filtro_width + 1)
     output = np.zeros((img_height - filtro_height + 1, img_width - filtro_width + 1), dtype=np.float32)
 
-    # Aplicar convolución
+    # Aplicar la convolución sin padding recorriendo la imagen:
     for i in range(img_height - filtro_height + 1):
         for j in range(img_width - filtro_width + 1):
+            # Extraer una región de la imagen con el mismo tamaño que el filtro.
             region = image[i:i + filtro_height, j:j + filtro_width]
+            # Multiplicar elemento a elemento la región y el filtro, y luego sumar todos los valores.
             output[i, j] = np.sum(region * filtro)
 
+    # Limitar los valores del resultado al rango [0, 255] y convertir a uint8 para visualización.
     output = np.clip(output, 0, 255).astype(np.uint8)
-
     
-    return output # Devuelve la imagen original y la filtrada
+    # Retornar la imagen resultante de la convolución.
+    return output
 
-# Ejemplo de uso
+# Bloque principal del programa.
 if __name__ == "__main__":
-    image_path = "dog.jpeg" 
+    # Definir la ruta de la imagen a procesar.
+    image_path = "semana-tec-convolucion/dog.jpeg" 
 
-    # Cargar la imagen en escala de grises
+    # Cargar la imagen en escala de grises usando OpenCV.
     image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
+    # Si la imagen no se cargó correctamente, se muestra un mensaje de error y se finaliza el programa.
     if image is None:
-        print(f"Error: No se pudo cargar la imagen")
+        print("Error: No se pudo cargar la imagen")
         exit()
 
-    # Filtro Sobel en X (detección de bordes)
+    # Convertir la imagen a tipo float32 para realizar operaciones de convolución sin pérdida de precisión.
+    image = image.astype(np.float32)
+
+    # Definir el filtro 1: Kernel para aumento de ruido.
     filtro1 = np.array([
+        [ 0, -1,  0],
+        [-1,  5, -1],
+        [ 0, -1,  0]
+    ], dtype=np.float32)
+
+    # Definir el filtro 2: Kernel Sobel en X para detección de bordes horizontales.
+    filtro2 = np.array([
         [-1, 0, 1],
         [-2, 0, 2],
         [-1, 0, 1]
     ], dtype=np.float32)
 
-    filtro2 = np.array([
-        [-1, -2, -1],
-        [0, 0, 0],
-        [1, 2, 1]
-    ], dtype=np.float32)
-
+    # Definir el filtro 3: Kernel Laplaciano para realce de bordes.
     filtro3 = np.array([    
         [0, 1, 0],
         [1, -4, 1],
         [0, 1, 0]
     ], dtype=np.float32)
 
-    # Aplicar convolución
+    # Aplicar el filtro 1 (aumento de ruido) a la imagen original.
     resultado1 = convolution(image, filtro1)
+    # Aplicar el filtro 2 (Sobel) al resultado obtenido del filtro 1.
     resultado2 = convolution(resultado1, filtro2)
+    # Aplicar el filtro 3 (Laplaciano) al resultado obtenido del filtro 2.
     resultado3 = convolution(resultado2, filtro3)
-
+    
+    # Si el resultado del primer filtro no es None, continuar con la visualización.
     if resultado1 is not None:
-        # Mostrar las imágenes con Matplotlib
+        # Crear una figura con tamaño 10x5 pulgadas para mostrar las imágenes.
         plt.figure(figsize=(10, 5))
 
-        # Imagen original
-        plt.subplot(1, 4, 1)
-        plt.imshow(image, cmap='gray')
-        plt.title("Imagen Original")
-        plt.axis("off")
+        # Mostrar la imagen original.
+        plt.subplot(1, 4, 1)  # Organizar en 1 fila y 4 columnas; primera posición.
+        plt.imshow(image, cmap='gray')  # Mostrar la imagen en escala de grises.
+        plt.title("Imagen Original")      # Título de la subimagen.
+        plt.axis("off")                   # Ocultar los ejes.
 
-        # Filtro 1
-        plt.subplot(1, 4, 2)
+        # Mostrar la imagen con el primer filtro aplicado (aumento de ruido).
+        plt.subplot(1, 4, 2)  # Segunda posición.
         plt.imshow(resultado1, cmap='gray')
-        plt.title("Imagen con Convolución ")
+        plt.title("Aumento de Ruido")
         plt.axis("off")
 
-        # Filtro 2
-        plt.subplot(1, 4, 3)
+        # Mostrar la imagen con el filtro Sobel aplicado.
+        plt.subplot(1, 4, 3)  # Tercera posición.
         plt.imshow(resultado2, cmap='gray')
+        plt.title("Filtro Sobel")
+        plt.axis("off")
 
-        # Filtro 3
-        plt.subplot(1, 4, 4)
+        # Mostrar la imagen con el filtro Laplaciano aplicado.
+        plt.subplot(1, 4, 4)  # Cuarta posición.
         plt.imshow(resultado3, cmap='gray')
+        plt.title("Filtro rojo")
+        plt.axis("off")
         
-        # Mostrar la figura
+        # Mostrar todas las imágenes en una ventana.
         plt.show()
