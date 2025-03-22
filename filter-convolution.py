@@ -69,7 +69,7 @@ if __name__ == "__main__":
     # Definir el filtro 3: Kernel Laplaciano para realce de bordes.
     filtro3 = np.array([    
         [0, 1, 0],
-        [1, -4, 1],
+        [1, -16, 1],
         [0, 1, 0]
     ], dtype=np.float32)
 
@@ -106,7 +106,7 @@ if __name__ == "__main__":
         # Mostrar la imagen con el filtro Laplaciano aplicado.
         plt.subplot(1, 4, 4)  # Cuarta posición.
         plt.imshow(resultado3, cmap='gray')
-        plt.title("Filtro rojo")
+        plt.title("Filtro Laplaciano")
         plt.axis("off")
         
         # Mostrar todas las imágenes en una ventana.
