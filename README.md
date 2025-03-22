@@ -41,9 +41,12 @@ El filtro propuesto se basa en la integración secuencial de tres efectos princi
 Se introduce variación aleatoria en la intensidad de los píxeles para generar textura, luego se aplica el filtro Sobel para resaltar bordes y, finalmente, el filtro Laplaciano para enfatizar cambios de intensidad, creando una estética impactante y coherente.
 
 ## REFERENCIAS
-- Esri. (s.f.) Función de convolución. https://doc.arcgis.com/es/allsource/1.0/analysis/raster-functions/convolution-function.htm  
-- Fisher, R., Perkins, S., & Walker, A. (2003a). Gaussian Smoothing. Hypermedia Image Processing Reference. https://homepages.inf.ed.ac.uk/rbf/HIPR2/gsmooth.htm  
-- Fisher, R., Perkins, S., & Walker, A. (2003b). Sobel Edge Detector. Hypermedia Image Processing Reference. https://homepages.inf.ed.ac.uk/rbf/HIPR2/sobel.htm  
-- OpenCV. (2025) Smoothing Images. https://docs.opencv.org/4.x/d4/d13/tutorial_py_filtering.html  
+- Esri. (s.f.) Función de convolución. https://doc.arcgis.com/es/allsource/1.0/analysis/raster-functions/convolution-function.htm
+- Fisher, R., Perkins, S., & Walker, A. (2003a). Gaussian Smoothing. Hypermedia Image Processing Reference. https://homepages.inf.ed.ac.uk/rbf/HIPR2/gsmooth.htm
+- Fisher, R., Perkins, S., & Walker, A. (2003b). Sobel Edge Detector. Hypermedia Image Processing Reference. https://homepages.inf.ed.ac.uk/rbf/HIPR2/sobel.htm
+- Función de convolución—ArcMap. (s.f.). Documentación. https://desktop.arcgis.com/es/arcmap/latest/manage-data/raster-and-images/convolution-function.htm
+- OpenCV. (2025) Smoothing Images. https://docs.opencv.org/4.x/d4/d13/tutorial_py_filtering.html
+- Prajapati, P. (2024, marzo 5). ¿Cómo se puede utilizar un filtro laplaciano para afinar los bordes de una imagen? LinkedIn. https://es.linkedin.com/advice/3/how-can-you-use-laplacian-filter-sharpen-rjxqe?lang=es&lang=es
 - PTC. (2024). Suavizado. https://support.ptc.com/help/mathcad/r10.0/es/index.html#page/PTC_Mathcad_Help/smoothing.html
+
 
