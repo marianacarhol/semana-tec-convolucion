@@ -43,7 +43,7 @@ if __name__ == "__main__":
     image_path = "semana-tec-convolucion/dog.jpeg" 
 
     # Cargar la imagen en escala de grises usando OpenCV.
-    image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
+    image = cv2.imread(r"C:\Users\Zuleyca Soto\Desktop\proyecto\semana-tec-convolucion\dog.jpeg", cv2.IMREAD_GRAYSCALE)
     # Si la imagen no se cargó correctamente, se muestra un mensaje de error y se finaliza el programa.
     if image is None:
         print("Error: No se pudo cargar la imagen")
@@ -80,34 +80,40 @@ if __name__ == "__main__":
     # Aplicar el filtro 3 (Laplaciano) al resultado obtenido del filtro 2.
     resultado3 = convolution(resultado2, filtro3)
     
+    # Agregar padding circular al resultado final.
+    # Se agrega un padding de 15 píxeles alrededor de la imagen, este valor es ajustable.
+    pad = 15
+    resultadopad = np.pad(resultado3, ((pad, pad), (pad, pad)), mode='wrap').astype(np.uint8)
+
     # Si el resultado del primer filtro no es None, continuar con la visualización.
     if resultado1 is not None:
-        # Crear una figura con tamaño 10x5 pulgadas para mostrar las imágenes.
-        plt.figure(figsize=(10, 5))
+        # Crear una figura con tamaño 15x5 pulgadas para mostrar las imágenes.
+        # Se crean 5 subplots para mostrar cada etapa del proceso de convolución.
+        plt.figure(figsize=(15, 5))
 
-        # Mostrar la imagen original.
-        plt.subplot(1, 4, 1)  # Organizar en 1 fila y 4 columnas; primera posición.
-        plt.imshow(image, cmap='gray')  # Mostrar la imagen en escala de grises.
-        plt.title("Imagen Original")      # Título de la subimagen.
-        plt.axis("off")                   # Ocultar los ejes.
+        plt.subplot(1, 5, 1)  # Imagen Original.
+        plt.imshow(image, cmap='gray')
+        plt.title("Imagen Original")
+        plt.axis("off")
 
-        # Mostrar la imagen con el primer filtro aplicado (aumento de ruido).
-        plt.subplot(1, 4, 2)  # Segunda posición.
-        plt.imshow(resultado1, cmap='gray')
+        plt.subplot(1, 5, 2)  # Primer filtro (Aumento de Ruido).
+        plt.imshow(resultado1.astype(np.uint8), cmap='gray')
         plt.title("Aumento de Ruido")
         plt.axis("off")
 
-        # Mostrar la imagen con el filtro Sobel aplicado.
-        plt.subplot(1, 4, 3)  # Tercera posición.
-        plt.imshow(resultado2, cmap='gray')
+        plt.subplot(1, 5, 3)  # Segundo filtro (Filtro Sobel).
+        plt.imshow(resultado2.astype(np.uint8), cmap='gray')
         plt.title("Filtro Sobel")
         plt.axis("off")
 
-        # Mostrar la imagen con el filtro Laplaciano aplicado.
-        plt.subplot(1, 4, 4)  # Cuarta posición.
-        plt.imshow(resultado3, cmap='gray')
+        plt.subplot(1, 5, 4)  # Tercer filtro (Filtro Laplaciano).
+        plt.imshow(resultado3.astype(np.uint8), cmap='gray')
         plt.title("Filtro Laplaciano")
         plt.axis("off")
+
+        plt.subplot(1, 5, 5)  # Resultado final con padding.
+        plt.imshow(resultadopad, cmap='gray')
+        plt.title("Con Padding Final")
+        plt.axis("off")
         
-        # Mostrar todas las imágenes en una ventana.
         plt.show()
