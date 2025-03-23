@@ -43,7 +43,7 @@ if __name__ == "__main__":
     image_path = "semana-tec-convolucion/dog.jpeg" 
 
     # Cargar la imagen en escala de grises usando OpenCV.
-    image = cv2.imread(r"C:\Users\Zuleyca Soto\Desktop\proyecto\semana-tec-convolucion\dog.jpeg", cv2.IMREAD_GRAYSCALE)
+    image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
     # Si la imagen no se cargó correctamente, se muestra un mensaje de error y se finaliza el programa.
     if image is None:
         print("Error: No se pudo cargar la imagen")
